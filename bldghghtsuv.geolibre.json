@@ -3,21 +3,21 @@
   "name": "Untitled Project",
   "mapView": {
     "center": [
-      178.44077252367538,
-      -18.142863627541843
+      178.44075054962343,
+      -18.14287058805975
     ],
     "zoom": 13.90669510157062,
     "bearing": 0,
     "pitch": 0,
     "bbox": [
-      178.41994145406062,
-      -18.163941207659235,
-      178.461603593294,
-      -18.12178350633765
+      178.4126629425669,
+      -18.162686629389285,
+      178.46883815667695,
+      -18.123052300736106
     ]
   },
   "basemapStyleUrl": "https://tiles.openfreemap.org/styles/liberty",
-  "basemapVisible": true,
+  "basemapVisible": false,
   "basemapOpacity": 1,
   "layers": [
     {
@@ -353,8 +353,13 @@
             "lineColor": "#3388ff",
             "lineWidth": 2,
             "circleColor": "#3388ff",
-            "circleOpacity": 0.4,
             "circleRadius": 5,
+            "circleOpacity": 0.4,
+            "pointMode": "circle",
+            "heatmapRadius": 30,
+            "heatmapIntensity": 1,
+            "clusterRadius": 50,
+            "clusterMaxZoom": 14,
             "fillColorExpression": [
               "step",
               [
@@ -505,6 +510,7 @@
               "#7a0403"
             ],
             "extrusionOpacity": 0.8,
+            "extrusionBase": 0,
             "extrusionHeight": [
               "*",
               [
@@ -517,13 +523,6 @@
               ],
               2
             ],
-            "extrusionBase": 0,
-            "pointMode": "circle",
-            "heatmapRadius": 30,
-            "heatmapIntensity": 1,
-            "clusterRadius": 50,
-            "clusterMaxZoom": 14,
-            "labelField": "",
             "labelSize": 13,
             "labelColor": "#111827",
             "labelHaloColor": "#ffffff",
@@ -549,7 +548,6 @@
       "sourcePath": "https://agenticpacific.com.fj/platform-projects/data/suva-buildings.geojson"
     }
   ],
-  "selectedLayerId": "vector-ptuuruw",
   "styles": {
     "basemap-esri-world-imagery": {
       "minZoom": 0,
