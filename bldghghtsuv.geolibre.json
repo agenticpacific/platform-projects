@@ -1,0 +1,880 @@
+{
+  "version": "0.2.0",
+  "name": "Untitled Project",
+  "mapView": {
+    "center": [
+      178.44077252367538,
+      -18.142863627541843
+    ],
+    "zoom": 13.90669510157062,
+    "bearing": 0,
+    "pitch": 0,
+    "bbox": [
+      178.41994145406062,
+      -18.163941207659235,
+      178.461603593294,
+      -18.12178350633765
+    ]
+  },
+  "basemapStyleUrl": "https://tiles.openfreemap.org/styles/liberty",
+  "basemapVisible": true,
+  "basemapOpacity": 1,
+  "layers": [
+    {
+      "id": "basemap-esri-world-imagery",
+      "name": "World Imagery",
+      "type": "raster",
+      "source": {
+        "attribution": "Tiles &copy; Esri, Maxar, Earthstar Geographics, and the GIS User Community",
+        "maxzoom": 19,
+        "sourceId": "maplibre-basemap-control-source-esri-world-imagery",
+        "tileSize": 256,
+        "tiles": [
+          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+        ],
+        "type": "raster"
+      },
+      "visible": true,
+      "opacity": 1,
+      "style": {
+        "minZoom": 0,
+        "maxZoom": 24,
+        "fillColor": "#3b82f6",
+        "strokeColor": "#1e40af",
+        "strokeWidth": 2,
+        "strokeWidthUnit": "pixels",
+        "fillOpacity": 0.6,
+        "circleRadius": 6,
+        "textColor": "#111827",
+        "textHaloColor": "#ffffff",
+        "textHaloWidth": 2,
+        "textSize": 16,
+        "labels": {
+          "enabled": false,
+          "field": "",
+          "expression": "",
+          "placement": "point",
+          "size": 13,
+          "color": "#111827",
+          "haloColor": "#ffffff",
+          "haloWidth": 1.5,
+          "minZoom": 0,
+          "maxZoom": 24,
+          "allowOverlap": false,
+          "anchor": "center",
+          "offsetX": 0,
+          "offsetY": 0,
+          "rotation": 0,
+          "maxWidth": 10,
+          "transform": "none",
+          "dedupe": "off",
+          "sizeExpression": "",
+          "colorExpression": "",
+          "opacityExpression": "",
+          "visibilityExpression": "",
+          "priorityExpression": ""
+        },
+        "extrusionEnabled": false,
+        "extrusionColor": "#3b82f6",
+        "extrusionOpacity": 0.8,
+        "extrusionHeightProperty": "height",
+        "extrusionHeightScale": 1,
+        "extrusionBase": 0,
+        "extrusionAdvancedStyleEnabled": false,
+        "extrusionColorExpression": "",
+        "extrusionHeightExpression": "",
+        "elevation3dEnabled": false,
+        "elevation3dVerticalScale": 1,
+        "elevation3dOffset": 0,
+        "vectorStyleMode": "single",
+        "vectorStyleProperty": "",
+        "vectorStyleClassCount": 5,
+        "vectorStyleColorRamp": "viridis",
+        "vectorStyleClassificationScheme": "equal-interval",
+        "vectorStyleStops": [
+          {
+            "value": 0,
+            "color": "#dbeafe"
+          },
+          {
+            "value": 1,
+            "color": "#2563eb"
+          }
+        ],
+        "vectorStyleExpression": "",
+        "vectorRules": [],
+        "proportionalSizeEnabled": false,
+        "proportionalSizeProperty": "",
+        "proportionalSizeMinValue": 0,
+        "proportionalSizeMaxValue": 100,
+        "proportionalSizeMinRadius": 4,
+        "proportionalSizeMaxRadius": 24,
+        "fillPattern": "none",
+        "fillPatternColor": "#1e40af",
+        "fillPatternSvg": "",
+        "markerEnabled": false,
+        "markerShape": "circle",
+        "markerColor": "#3b82f6",
+        "markerSize": 18,
+        "markerSvg": "",
+        "simpleStyleEnabled": false,
+        "diagramType": "none",
+        "diagramFields": [],
+        "diagramSizeMode": "fixed",
+        "diagramSize": 30,
+        "diagramSizeProperty": "",
+        "diagramMinZoom": 0,
+        "diagramDeclutter": false,
+        "pointRenderer": "single",
+        "heatmapRadius": 30,
+        "heatmapIntensity": 1,
+        "clusterRadius": 50,
+        "clusterMaxZoom": 14,
+        "invertedFillEnabled": false,
+        "lineDecoration": "none",
+        "lineDecorationColor": "",
+        "lineDecorationSize": 12,
+        "lineDecorationSpacing": 80,
+        "geometryGenerator": "none",
+        "geometryGeneratorBufferDistance": 1000,
+        "geometryGeneratorFillColor": "#f59e0b",
+        "geometryGeneratorStrokeColor": "#b45309",
+        "geometryGeneratorStrokeWidth": 2,
+        "geometryGeneratorOpacity": 0.4,
+        "geometryGeneratorCircleRadius": 5,
+        "rasterBrightnessMin": 0,
+        "rasterBrightnessMax": 1,
+        "rasterSaturation": 0,
+        "rasterContrast": 0,
+        "rasterHueRotate": 0
+      },
+      "metadata": {
+        "basemapId": "esri-world-imagery",
+        "basemapProvider": "esri",
+        "category": "Imagery",
+        "externalNativeLayer": true,
+        "identifiable": false,
+        "sourceKind": "maplibre-basemap-control",
+        "tileType": "raster",
+        "tileUrl": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "nativeLayerIds": [
+          "esri-world-imagery"
+        ],
+        "sourceIds": [
+          "maplibre-basemap-control-source-esri-world-imagery"
+        ],
+        "sourceId": "maplibre-basemap-control-source-esri-world-imagery"
+      }
+    },
+    {
+      "id": "vector-ptuuruw",
+      "name": "Building Height Suva Peninsula",
+      "type": "geojson",
+      "source": {
+        "type": "geojson",
+        "url": "https://agenticpacific.com.fj/platform-projects/data/suva-buildings.geojson"
+      },
+      "visible": true,
+      "opacity": 1,
+      "style": {
+        "minZoom": 0,
+        "maxZoom": 24,
+        "fillColor": "#3388ff",
+        "strokeColor": "#3388ff",
+        "strokeWidth": 2,
+        "strokeWidthUnit": "pixels",
+        "fillOpacity": 0.4,
+        "circleRadius": 5,
+        "textColor": "#111827",
+        "textHaloColor": "#ffffff",
+        "textHaloWidth": 2,
+        "textSize": 16,
+        "labels": {
+          "enabled": false,
+          "field": "",
+          "expression": "",
+          "placement": "point",
+          "size": 13,
+          "color": "#111827",
+          "haloColor": "#ffffff",
+          "haloWidth": 1.5,
+          "minZoom": 0,
+          "maxZoom": 24,
+          "allowOverlap": false,
+          "anchor": "center",
+          "offsetX": 0,
+          "offsetY": 0,
+          "rotation": 0,
+          "maxWidth": 10,
+          "transform": "none",
+          "dedupe": "off",
+          "sizeExpression": "",
+          "colorExpression": "",
+          "opacityExpression": "",
+          "visibilityExpression": "",
+          "priorityExpression": ""
+        },
+        "extrusionEnabled": true,
+        "extrusionColor": "#3b82f6",
+        "extrusionOpacity": 0.8,
+        "extrusionHeightProperty": "height",
+        "extrusionHeightScale": 2,
+        "extrusionBase": 0,
+        "extrusionAdvancedStyleEnabled": false,
+        "extrusionColorExpression": "",
+        "extrusionHeightExpression": "",
+        "elevation3dEnabled": false,
+        "elevation3dVerticalScale": 1,
+        "elevation3dOffset": 0,
+        "vectorStyleMode": "graduated",
+        "vectorStyleProperty": "height",
+        "vectorStyleClassCount": 12,
+        "vectorStyleColorRamp": "turbo",
+        "vectorStyleClassificationScheme": "natural-breaks",
+        "vectorStyleStops": [
+          {
+            "value": 0.13207875192165375,
+            "color": "#30123b"
+          },
+          {
+            "value": 1.7460095882415771,
+            "color": "#3a408d"
+          },
+          {
+            "value": 3.3114843368530273,
+            "color": "#456edf"
+          },
+          {
+            "value": 4.447047710418701,
+            "color": "#3797e4"
+          },
+          {
+            "value": 5.384984493255615,
+            "color": "#24bfd6"
+          },
+          {
+            "value": 6.294143199920654,
+            "color": "#47d5a9"
+          },
+          {
+            "value": 7.315030097961426,
+            "color": "#8ee069"
+          },
+          {
+            "value": 8.60300064086914,
+            "color": "#c5d33c"
+          },
+          {
+            "value": 10.35988998413086,
+            "color": "#e3a52e"
+          },
+          {
+            "value": 12.83764362335205,
+            "color": "#ef751f"
+          },
+          {
+            "value": 18.92510986328125,
+            "color": "#b53c11"
+          },
+          {
+            "value": 46.26064682006836,
+            "color": "#7a0403"
+          }
+        ],
+        "vectorStyleExpression": "",
+        "vectorRules": [],
+        "proportionalSizeEnabled": false,
+        "proportionalSizeProperty": "",
+        "proportionalSizeMinValue": 0,
+        "proportionalSizeMaxValue": 100,
+        "proportionalSizeMinRadius": 4,
+        "proportionalSizeMaxRadius": 24,
+        "fillPattern": "none",
+        "fillPatternColor": "#1e40af",
+        "fillPatternSvg": "",
+        "markerEnabled": false,
+        "markerShape": "circle",
+        "markerColor": "#3b82f6",
+        "markerSize": 18,
+        "markerSvg": "",
+        "simpleStyleEnabled": false,
+        "diagramType": "none",
+        "diagramFields": [],
+        "diagramSizeMode": "fixed",
+        "diagramSize": 30,
+        "diagramSizeProperty": "",
+        "diagramMinZoom": 0,
+        "diagramDeclutter": false,
+        "pointRenderer": "single",
+        "heatmapRadius": 30,
+        "heatmapIntensity": 1,
+        "clusterRadius": 50,
+        "clusterMaxZoom": 14,
+        "invertedFillEnabled": false,
+        "lineDecoration": "none",
+        "lineDecorationColor": "",
+        "lineDecorationSize": 12,
+        "lineDecorationSpacing": 80,
+        "geometryGenerator": "none",
+        "geometryGeneratorBufferDistance": 1000,
+        "geometryGeneratorFillColor": "#f59e0b",
+        "geometryGeneratorStrokeColor": "#b45309",
+        "geometryGeneratorStrokeWidth": 2,
+        "geometryGeneratorOpacity": 0.4,
+        "geometryGeneratorCircleRadius": 5,
+        "rasterBrightnessMin": 0,
+        "rasterBrightnessMax": 1,
+        "rasterSaturation": 0,
+        "rasterContrast": 0,
+        "rasterHueRotate": 0
+      },
+      "metadata": {
+        "customLayerType": "fill",
+        "externalNativeLayer": true,
+        "controlOwnsPaint": true,
+        "identifiable": false,
+        "nativeLayerIds": [
+          "vector-ptuuruw-extrusion"
+        ],
+        "panelCollapsed": true,
+        "sourceIds": [
+          "vector-ptuuruw-source"
+        ],
+        "sourceKind": "maplibre-gl-vector",
+        "vectorSource": "url",
+        "vectorState": {
+          "format": "geojson",
+          "ingestMode": "table",
+          "picker": true,
+          "renderMode": "geojson",
+          "style": {
+            "fillColor": "#3388ff",
+            "fillOpacity": 0.4,
+            "lineColor": "#3388ff",
+            "lineWidth": 2,
+            "circleColor": "#3388ff",
+            "circleOpacity": 0.4,
+            "circleRadius": 5,
+            "fillColorExpression": [
+              "step",
+              [
+                "to-number",
+                [
+                  "get",
+                  "height"
+                ],
+                0.13207875192165375
+              ],
+              "#30123b",
+              1.7460095882415771,
+              "#3a408d",
+              3.3114843368530273,
+              "#456edf",
+              4.447047710418701,
+              "#3797e4",
+              5.384984493255615,
+              "#24bfd6",
+              6.294143199920654,
+              "#47d5a9",
+              7.315030097961426,
+              "#8ee069",
+              8.60300064086914,
+              "#c5d33c",
+              10.35988998413086,
+              "#e3a52e",
+              12.83764362335205,
+              "#ef751f",
+              18.92510986328125,
+              "#b53c11",
+              46.26064682006836,
+              "#7a0403"
+            ],
+            "lineColorExpression": [
+              "case",
+              [
+                "==",
+                [
+                  "geometry-type"
+                ],
+                "Polygon"
+              ],
+              "#3388ff",
+              [
+                "step",
+                [
+                  "to-number",
+                  [
+                    "get",
+                    "height"
+                  ],
+                  0.13207875192165375
+                ],
+                "#30123b",
+                1.7460095882415771,
+                "#3a408d",
+                3.3114843368530273,
+                "#456edf",
+                4.447047710418701,
+                "#3797e4",
+                5.384984493255615,
+                "#24bfd6",
+                6.294143199920654,
+                "#47d5a9",
+                7.315030097961426,
+                "#8ee069",
+                8.60300064086914,
+                "#c5d33c",
+                10.35988998413086,
+                "#e3a52e",
+                12.83764362335205,
+                "#ef751f",
+                18.92510986328125,
+                "#b53c11",
+                46.26064682006836,
+                "#7a0403"
+              ]
+            ],
+            "circleColorExpression": [
+              "step",
+              [
+                "to-number",
+                [
+                  "get",
+                  "height"
+                ],
+                0.13207875192165375
+              ],
+              "#30123b",
+              1.7460095882415771,
+              "#3a408d",
+              3.3114843368530273,
+              "#456edf",
+              4.447047710418701,
+              "#3797e4",
+              5.384984493255615,
+              "#24bfd6",
+              6.294143199920654,
+              "#47d5a9",
+              7.315030097961426,
+              "#8ee069",
+              8.60300064086914,
+              "#c5d33c",
+              10.35988998413086,
+              "#e3a52e",
+              12.83764362335205,
+              "#ef751f",
+              18.92510986328125,
+              "#b53c11",
+              46.26064682006836,
+              "#7a0403"
+            ],
+            "extrusionEnabled": true,
+            "extrusionColor": "#3b82f6",
+            "extrusionColorExpression": [
+              "step",
+              [
+                "to-number",
+                [
+                  "get",
+                  "height"
+                ],
+                0.13207875192165375
+              ],
+              "#30123b",
+              1.7460095882415771,
+              "#3a408d",
+              3.3114843368530273,
+              "#456edf",
+              4.447047710418701,
+              "#3797e4",
+              5.384984493255615,
+              "#24bfd6",
+              6.294143199920654,
+              "#47d5a9",
+              7.315030097961426,
+              "#8ee069",
+              8.60300064086914,
+              "#c5d33c",
+              10.35988998413086,
+              "#e3a52e",
+              12.83764362335205,
+              "#ef751f",
+              18.92510986328125,
+              "#b53c11",
+              46.26064682006836,
+              "#7a0403"
+            ],
+            "extrusionOpacity": 0.8,
+            "extrusionHeight": [
+              "*",
+              [
+                "to-number",
+                [
+                  "get",
+                  "height"
+                ],
+                0
+              ],
+              2
+            ],
+            "extrusionBase": 0,
+            "pointMode": "circle",
+            "heatmapRadius": 30,
+            "heatmapIntensity": 1,
+            "clusterRadius": 50,
+            "clusterMaxZoom": 14,
+            "labelField": "",
+            "labelSize": 13,
+            "labelColor": "#111827",
+            "labelHaloColor": "#ffffff",
+            "labelHaloWidth": 1.5,
+            "labelPlacement": "point",
+            "labelAllowOverlap": false
+          }
+        },
+        "geometryType": "polygon",
+        "featureCount": 11947,
+        "fields": [
+          "fid",
+          "id",
+          "height"
+        ],
+        "bounds": [
+          178.4219678,
+          -18.1638917,
+          178.478698,
+          -18.1166069
+        ]
+      },
+      "sourcePath": "https://agenticpacific.com.fj/platform-projects/data/suva-buildings.geojson"
+    }
+  ],
+  "selectedLayerId": "vector-ptuuruw",
+  "styles": {
+    "basemap-esri-world-imagery": {
+      "minZoom": 0,
+      "maxZoom": 24,
+      "fillColor": "#3b82f6",
+      "strokeColor": "#1e40af",
+      "strokeWidth": 2,
+      "strokeWidthUnit": "pixels",
+      "fillOpacity": 0.6,
+      "circleRadius": 6,
+      "textColor": "#111827",
+      "textHaloColor": "#ffffff",
+      "textHaloWidth": 2,
+      "textSize": 16,
+      "labels": {
+        "enabled": false,
+        "field": "",
+        "expression": "",
+        "placement": "point",
+        "size": 13,
+        "color": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.5,
+        "minZoom": 0,
+        "maxZoom": 24,
+        "allowOverlap": false,
+        "anchor": "center",
+        "offsetX": 0,
+        "offsetY": 0,
+        "rotation": 0,
+        "maxWidth": 10,
+        "transform": "none",
+        "dedupe": "off",
+        "sizeExpression": "",
+        "colorExpression": "",
+        "opacityExpression": "",
+        "visibilityExpression": "",
+        "priorityExpression": ""
+      },
+      "extrusionEnabled": false,
+      "extrusionColor": "#3b82f6",
+      "extrusionOpacity": 0.8,
+      "extrusionHeightProperty": "height",
+      "extrusionHeightScale": 1,
+      "extrusionBase": 0,
+      "extrusionAdvancedStyleEnabled": false,
+      "extrusionColorExpression": "",
+      "extrusionHeightExpression": "",
+      "elevation3dEnabled": false,
+      "elevation3dVerticalScale": 1,
+      "elevation3dOffset": 0,
+      "vectorStyleMode": "single",
+      "vectorStyleProperty": "",
+      "vectorStyleClassCount": 5,
+      "vectorStyleColorRamp": "viridis",
+      "vectorStyleClassificationScheme": "equal-interval",
+      "vectorStyleStops": [
+        {
+          "value": 0,
+          "color": "#dbeafe"
+        },
+        {
+          "value": 1,
+          "color": "#2563eb"
+        }
+      ],
+      "vectorStyleExpression": "",
+      "vectorRules": [],
+      "proportionalSizeEnabled": false,
+      "proportionalSizeProperty": "",
+      "proportionalSizeMinValue": 0,
+      "proportionalSizeMaxValue": 100,
+      "proportionalSizeMinRadius": 4,
+      "proportionalSizeMaxRadius": 24,
+      "fillPattern": "none",
+      "fillPatternColor": "#1e40af",
+      "fillPatternSvg": "",
+      "markerEnabled": false,
+      "markerShape": "circle",
+      "markerColor": "#3b82f6",
+      "markerSize": 18,
+      "markerSvg": "",
+      "simpleStyleEnabled": false,
+      "diagramType": "none",
+      "diagramFields": [],
+      "diagramSizeMode": "fixed",
+      "diagramSize": 30,
+      "diagramSizeProperty": "",
+      "diagramMinZoom": 0,
+      "diagramDeclutter": false,
+      "pointRenderer": "single",
+      "heatmapRadius": 30,
+      "heatmapIntensity": 1,
+      "clusterRadius": 50,
+      "clusterMaxZoom": 14,
+      "invertedFillEnabled": false,
+      "lineDecoration": "none",
+      "lineDecorationColor": "",
+      "lineDecorationSize": 12,
+      "lineDecorationSpacing": 80,
+      "geometryGenerator": "none",
+      "geometryGeneratorBufferDistance": 1000,
+      "geometryGeneratorFillColor": "#f59e0b",
+      "geometryGeneratorStrokeColor": "#b45309",
+      "geometryGeneratorStrokeWidth": 2,
+      "geometryGeneratorOpacity": 0.4,
+      "geometryGeneratorCircleRadius": 5,
+      "rasterBrightnessMin": 0,
+      "rasterBrightnessMax": 1,
+      "rasterSaturation": 0,
+      "rasterContrast": 0,
+      "rasterHueRotate": 0
+    },
+    "vector-ptuuruw": {
+      "minZoom": 0,
+      "maxZoom": 24,
+      "fillColor": "#3388ff",
+      "strokeColor": "#3388ff",
+      "strokeWidth": 2,
+      "strokeWidthUnit": "pixels",
+      "fillOpacity": 0.4,
+      "circleRadius": 5,
+      "textColor": "#111827",
+      "textHaloColor": "#ffffff",
+      "textHaloWidth": 2,
+      "textSize": 16,
+      "labels": {
+        "enabled": false,
+        "field": "",
+        "expression": "",
+        "placement": "point",
+        "size": 13,
+        "color": "#111827",
+        "haloColor": "#ffffff",
+        "haloWidth": 1.5,
+        "minZoom": 0,
+        "maxZoom": 24,
+        "allowOverlap": false,
+        "anchor": "center",
+        "offsetX": 0,
+        "offsetY": 0,
+        "rotation": 0,
+        "maxWidth": 10,
+        "transform": "none",
+        "dedupe": "off",
+        "sizeExpression": "",
+        "colorExpression": "",
+        "opacityExpression": "",
+        "visibilityExpression": "",
+        "priorityExpression": ""
+      },
+      "extrusionEnabled": true,
+      "extrusionColor": "#3b82f6",
+      "extrusionOpacity": 0.8,
+      "extrusionHeightProperty": "height",
+      "extrusionHeightScale": 2,
+      "extrusionBase": 0,
+      "extrusionAdvancedStyleEnabled": false,
+      "extrusionColorExpression": "",
+      "extrusionHeightExpression": "",
+      "elevation3dEnabled": false,
+      "elevation3dVerticalScale": 1,
+      "elevation3dOffset": 0,
+      "vectorStyleMode": "graduated",
+      "vectorStyleProperty": "height",
+      "vectorStyleClassCount": 12,
+      "vectorStyleColorRamp": "turbo",
+      "vectorStyleClassificationScheme": "natural-breaks",
+      "vectorStyleStops": [
+        {
+          "value": 0.13207875192165375,
+          "color": "#30123b"
+        },
+        {
+          "value": 1.7460095882415771,
+          "color": "#3a408d"
+        },
+        {
+          "value": 3.3114843368530273,
+          "color": "#456edf"
+        },
+        {
+          "value": 4.447047710418701,
+          "color": "#3797e4"
+        },
+        {
+          "value": 5.384984493255615,
+          "color": "#24bfd6"
+        },
+        {
+          "value": 6.294143199920654,
+          "color": "#47d5a9"
+        },
+        {
+          "value": 7.315030097961426,
+          "color": "#8ee069"
+        },
+        {
+          "value": 8.60300064086914,
+          "color": "#c5d33c"
+        },
+        {
+          "value": 10.35988998413086,
+          "color": "#e3a52e"
+        },
+        {
+          "value": 12.83764362335205,
+          "color": "#ef751f"
+        },
+        {
+          "value": 18.92510986328125,
+          "color": "#b53c11"
+        },
+        {
+          "value": 46.26064682006836,
+          "color": "#7a0403"
+        }
+      ],
+      "vectorStyleExpression": "",
+      "vectorRules": [],
+      "proportionalSizeEnabled": false,
+      "proportionalSizeProperty": "",
+      "proportionalSizeMinValue": 0,
+      "proportionalSizeMaxValue": 100,
+      "proportionalSizeMinRadius": 4,
+      "proportionalSizeMaxRadius": 24,
+      "fillPattern": "none",
+      "fillPatternColor": "#1e40af",
+      "fillPatternSvg": "",
+      "markerEnabled": false,
+      "markerShape": "circle",
+      "markerColor": "#3b82f6",
+      "markerSize": 18,
+      "markerSvg": "",
+      "simpleStyleEnabled": false,
+      "diagramType": "none",
+      "diagramFields": [],
+      "diagramSizeMode": "fixed",
+      "diagramSize": 30,
+      "diagramSizeProperty": "",
+      "diagramMinZoom": 0,
+      "diagramDeclutter": false,
+      "pointRenderer": "single",
+      "heatmapRadius": 30,
+      "heatmapIntensity": 1,
+      "clusterRadius": 50,
+      "clusterMaxZoom": 14,
+      "invertedFillEnabled": false,
+      "lineDecoration": "none",
+      "lineDecorationColor": "",
+      "lineDecorationSize": 12,
+      "lineDecorationSpacing": 80,
+      "geometryGenerator": "none",
+      "geometryGeneratorBufferDistance": 1000,
+      "geometryGeneratorFillColor": "#f59e0b",
+      "geometryGeneratorStrokeColor": "#b45309",
+      "geometryGeneratorStrokeWidth": 2,
+      "geometryGeneratorOpacity": 0.4,
+      "geometryGeneratorCircleRadius": 5,
+      "rasterBrightnessMin": 0,
+      "rasterBrightnessMax": 1,
+      "rasterSaturation": 0,
+      "rasterContrast": 0,
+      "rasterHueRotate": 0
+    }
+  },
+  "preferences": {
+    "map": {
+      "restrictBounds": false,
+      "bounds": [
+        -180,
+        -85,
+        180,
+        85
+      ],
+      "minZoom": 0,
+      "maxZoom": 24,
+      "maxPitch": 85,
+      "renderWorldCopies": true,
+      "projection": "globe",
+      "ellipsoidId": "earth",
+      "scaleUnit": "metric"
+    },
+    "environmentVariables": [],
+    "geocoding": {
+      "providerId": "nominatim",
+      "apiKeys": {}
+    }
+  },
+  "plugins": {
+    "manifestUrls": [],
+    "activePluginIds": [
+      "maplibre-layer-control",
+      "maplibre-gl-basemap-control",
+      "maplibre-atmosphere-effects",
+      "maplibre-deckgl-viz"
+    ],
+    "mapControlPositions": {
+      "maplibre-layer-control": "top-right",
+      "maplibre-gl-geo-editor": "top-left",
+      "maplibre-gl-annotations": "top-left",
+      "maplibre-gl-basemap-control": "top-left",
+      "maplibre-gl-fema-wms": "top-left",
+      "maplibre-gl-nasa-earthdata": "top-left",
+      "maplibre-gl-enviroatlas": "top-left",
+      "maplibre-gl-national-map": "top-left",
+      "maplibre-gl-esri-wayback": "top-left",
+      "maplibre-gl-time-slider": "bottom-left",
+      "geolibre-timelapse": "top-left",
+      "maplibre-gl-overture-maps": "top-left",
+      "maplibre-gl-geoagent": "top-left",
+      "maplibre-gl-usgs-lidar": "top-left",
+      "maplibre-gl-streetview": "top-right",
+      "maplibre-gl-mapillary": "top-left",
+      "geolibre-elevation-profile": "top-left",
+      "maplibre-gl-swipe": "top-left",
+      "maplibre-gl-components": "top-right"
+    },
+    "settings": {}
+  },
+  "legend": {
+    "title": "Legend",
+    "groupByLayer": true,
+    "order": [],
+    "overrides": {}
+  },
+  "metadata": {}
+}
