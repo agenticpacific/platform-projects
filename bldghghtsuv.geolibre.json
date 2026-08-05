@@ -1,19 +1,19 @@
 {
   "version": "0.2.0",
-  "name": "Untitled Project",
+  "name": "AI-Derived 3D Buildings for Suva Peninsula",
   "mapView": {
     "center": [
-      178.44075054962343,
-      -18.14287058805975
+      178.43044061102387,
+      -18.145371276418388
     ],
-    "zoom": 13.90669510157062,
-    "bearing": 0,
-    "pitch": 0,
+    "zoom": 15.37126469740697,
+    "bearing": -9.600000000001728,
+    "pitch": 52.499999999999986,
     "bbox": [
-      178.4126629425669,
-      -18.162686629389285,
-      178.46883815667695,
-      -18.123052300736106
+      178.4117118763179,
+      -18.154935383391845,
+      178.44138343891274,
+      -18.12111320041332
     ]
   },
   "basemapStyleUrl": "https://tiles.openfreemap.org/styles/liberty",
@@ -548,6 +548,7 @@
       "sourcePath": "https://agenticpacific.com.fj/platform-projects/data/suva-buildings.geojson"
     }
   ],
+  "selectedLayerId": "basemap-esri-world-imagery",
   "styles": {
     "basemap-esri-world-imagery": {
       "minZoom": 0,
