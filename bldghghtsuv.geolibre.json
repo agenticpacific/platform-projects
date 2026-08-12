@@ -168,7 +168,7 @@
     },
     {
       "id": "vector-ptuuruw",
-      "name": "Building Height Suva Peninsula",
+      "name": "AI Building Heights Suva",
       "type": "geojson",
       "source": {
         "type": "geojson",
@@ -536,7 +536,8 @@
         "fields": [
           "fid",
           "id",
-          "height"
+          "height",
+          "area"
         ],
         "bounds": [
           178.4219678,
@@ -548,7 +549,7 @@
       "sourcePath": "https://agenticpacific.com.fj/platform-projects/data/suva-buildings.geojson"
     }
   ],
-  "selectedLayerId": "basemap-esri-world-imagery",
+  "selectedLayerId": "vector-ptuuruw",
   "styles": {
     "basemap-esri-world-imagery": {
       "minZoom": 0,
