@@ -2,18 +2,22 @@
 <html lang="en">
 
 <head>
-    <title>Add a COG raster source</title>
-    <meta property="og:description" content="Add an external Cloud Optimized Geotiff (COG) as source." />
+    <title>Agentic Pacific LULC Product Fiji</title>
+    <meta property="og:description" content="Agentic Pacific's Land Use and Land Cover Product for Fiji." />
     <meta property="og:category" content="Raster & Imagery" />
     <meta property="og:created" content="2025-06-25" />
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.3.0/dist/maplibre-gl.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         body {
             margin: 0;
             padding: 0;
+            font-family: 'Roboto', sans-serif;
         }
 
         html,
@@ -22,18 +26,123 @@
             height: 100%;
         }
 
+        input,
+        select,
+        button {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .banner,
+        .year-picker,
+        .legend {
+            background: rgba(17, 24, 39, 0.88);
+            color: #f9fafb;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+        }
+
+        .banner {
+            position: absolute;
+            top: 10px;
+            left: 16px;
+            right: 16px;
+            z-index: 3;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.94), rgba(17, 24, 39, 0.82));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            padding: 18px 20px;
+            max-width: 820px;
+        }
+
+        .banner-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .banner-logo {
+            width: 76px;
+
+        }
+
+        .banner-text {
+            min-width: 0;
+        }
+
+        .banner h1 {
+            margin: 0;
+            font-size: clamp(20px, 2.2vw, 32px);
+            line-height: 1.15;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .banner p {
+            margin: 10px 0 0;
+            max-width: 90%;
+            font-size: 14px;
+            line-height: 1.5;
+            color: rgba(248, 250, 252, 0.86);
+        }
+
+        .controls-stack {
+            position: absolute;
+            top: 210px;
+            left: 16px;
+            z-index: 3;
+            display: grid;
+            gap: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+        }
+
+        .year-picker {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 14px;
+            font-size: 12px;
+            line-height: 1.35;
+        }
+
+        .year-picker label {
+            font-weight: 600;
+        }
+
+        .year-picker select {
+            appearance: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            color: inherit;
+            padding: 6px 10px;
+            font: inherit;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .year-slider {
+            width: 260px;
+            accent-color: #f9fafb;
+        }
+
+        .year-value {
+            min-width: 64px;
+            text-align: right;
+            font-weight: 700;
+        }
+
         .legend {
             position: absolute;
             bottom: 16px;
             left: 16px;
-            z-index: 1;
-            background: rgba(17, 24, 39, 0.88);
-            color: #f9fafb;
+            z-index: 2;
             padding: 12px 14px;
             border-radius: 14px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
-            backdrop-filter: blur(10px);
-            font: 12px/1.35 system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 12px;
+            line-height: 1.35;
             max-width: 240px;
         }
 
@@ -59,22 +168,77 @@
             flex: 0 0 14px;
             border: 1px solid rgba(255, 255, 255, 0.25);
         }
+
+        @media (max-width: 700px) {
+            .banner {
+                left: 12px;
+                right: 12px;
+                padding: 14px 16px;
+            }
+
+            .controls-stack {
+                top: 154px;
+                left: 12px;
+                right: 12px;
+            }
+
+            .year-slider {
+                width: min(100%, 320px);
+            }
+        }
     </style>
 </head>
 
 <body>
     <div id="map"></div>
+    <div class="banner">
+        <div class="banner-content">
+            <img class="banner-logo" src="logo.png" alt="Agentic Pacific Logo">
+            <div class="banner-text">
+                <h1><u>Land Use and Land Cover</u> Product for Fiji</h1>
+                <p style="text-align: justify;">Monthly, Quarterly and Annual Cadence from 2016 onwards.
+                    Generated using open Foundation Models for Earth Observations, Satellite Embeddings and other GeoAI
+                    methodologies. 
+                    This is a continuously evolving product, with the 2026 layers updated at every Sentinel 2
+                    acquisition with less than 30% cloud cover threshold.
+                    Gaps are due to of insufficient Sentinel 2 tiles, or cloud cover exceeding threshold, during that particular time-frame. 
+                    Contact <a href="mailto:info@agenticpacific.com.fj">info@agenticpacific.com.fj</a> for derived-data
+                    and analytical products.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="controls-stack">
+        <div class="year-picker">
+            <label for="cadenceSelect">Cadence</label>
+            <select id="cadenceSelect" aria-label="Select land cover cadence"></select>
+            <label for="periodSelect">Period</label>
+            <select id="periodSelect" aria-label="Select land cover period"></select>
+            <input id="periodSlider" class="year-slider" type="range" min="0" max="0" step="1" value="0"
+                aria-label="Scrub land cover period">
+            <span id="periodValue" class="year-value"></span>
+        </div>
+    </div>
     <div class="legend" aria-label="Land cover legend">
-        <h2>Land cover</h2>
-        <div class="legend-item"><span class="legend-swatch" style="background:#419BDF"></span><span>0 - Water</span></div>
-        <div class="legend-item"><span class="legend-swatch" style="background:#397D49"></span><span>1 - Trees</span></div>
-        <div class="legend-item"><span class="legend-swatch" style="background:#88B053"></span><span>2 - Grass</span></div>
-        <div class="legend-item"><span class="legend-swatch" style="background:#7A87C6"></span><span>3 - Flooded Vegetation</span></div>
-        <div class="legend-item"><span class="legend-swatch" style="background:#E49635"></span><span>4 - Crops</span></div>
-        <div class="legend-item"><span class="legend-swatch" style="background:#DFC35A"></span><span>5 - Low-laying Vegetation</span></div>
-        <div class="legend-item"><span class="legend-swatch" style="background:#C4281B"></span><span>6 - Built-up Area</span></div>
-        <div class="legend-item"><span class="legend-swatch" style="background:#A59B8F"></span><span>7 - Bare Ground</span></div>
-        <div class="legend-item"><span class="legend-swatch" style="background:#B39FE1"></span><span>8 - Unknown</span></div>
+        <h2>Fiji Land Cover</h2>
+        <div class="legend-item"><span class="legend-swatch" style="background:#419BDF"></span><span>0 - Water</span>
+        </div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#397D49"></span><span>1 - Trees</span>
+        </div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#88B053"></span><span>2 - Grass</span>
+        </div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#7A87C6"></span><span>3 - Flooded
+                Vegetation</span></div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#E49635"></span><span>4 - Crops</span>
+        </div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#DFC35A"></span><span>5 - Low-lying
+                Vegetation</span></div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#C4281B"></span><span>6 - Built-up
+                Area</span></div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#A59B8F"></span><span>7 - Bare
+                Ground</span></div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#B39FE1"></span><span>8 - Unknown</span>
+        </div>
     </div>
     <script src="https://unpkg.com/@geomatico/maplibre-cog-protocol@0.5.0/dist/index.js"></script>
     <script type="module">
@@ -82,7 +246,7 @@
 
         maplibregl.addProtocol('cog', MaplibreCOGProtocol.cogProtocol);
 
-        const cogUrl = 'https://agenticpacific.com.fj/platform-projects/data/fj_lulc/annual/fj_lulc_annual_2025_3857.tif';
+        const cogBaseUrl = 'https://agenticpacific.com.fj/platform-projects/data/fj_lulc';
         const cogPalette = [
             '#419BDF',
             '#397D49',
@@ -95,21 +259,49 @@
             '#B39FE1'
         ];
 
-        MaplibreCOGProtocol.setColorFunction(cogUrl, (pixel, color, metadata) => {
-            const value = pixel[0];
+        const catalogs = {
+            annual: Array.from({ length: 11 }, (_, index) => {
+                const year = 2016 + index;
+                return {
+                    label: String(year),
+                    url: `${cogBaseUrl}/annual/fj_lulc_annual_${year}_3857.tif`
+                };
+            }),
+            quarterly: [
+                { label: '2026-01', url: `${cogBaseUrl}/quarterly/fj_lulc_quarterly_2026_01_3857.tif` },
+                { label: '2026-04', url: `${cogBaseUrl}/quarterly/fj_lulc_quarterly_2026_04_3857.tif` },
+                { label: '2026-07', url: `${cogBaseUrl}/quarterly/fj_lulc_quarterly_2026_07_3857.tif` }
+            ],
+            monthly: [
+                { label: '2026-01', url: `${cogBaseUrl}/monthly/fj_lulc_monthly_2026_01_3857.tif` },
+                { label: '2026-02', url: `${cogBaseUrl}/monthly/fj_lulc_monthly_2026_02_3857.tif` },
+                { label: '2026-03', url: `${cogBaseUrl}/monthly/fj_lulc_monthly_2026_03_3857.tif` },
+                { label: '2026-04', url: `${cogBaseUrl}/monthly/fj_lulc_monthly_2026_04_3857.tif` },
+                { label: '2026-05', url: `${cogBaseUrl}/monthly/fj_lulc_monthly_2026_05_3857.tif` },
+                { label: '2026-06', url: `${cogBaseUrl}/monthly/fj_lulc_monthly_2026_06_3857.tif` },
+                { label: '2026-07', url: `${cogBaseUrl}/monthly/fj_lulc_monthly_2026_07_3857.tif` }
+            ]
+        };
 
-            if (value === metadata.noData || value < 0 || value > 8) {
-                color.set([0, 0, 0, 0]);
-                return;
+        for (const items of Object.values(catalogs)) {
+            for (const item of items) {
+                MaplibreCOGProtocol.setColorFunction(item.url, (pixel, color, metadata) => {
+                    const value = pixel[0];
+
+                    if (value === metadata.noData || value < 0 || value > 8) {
+                        color.set([0, 0, 0, 0]);
+                        return;
+                    }
+
+                    const hex = cogPalette[value];
+                    const red = Number.parseInt(hex.slice(1, 3), 16);
+                    const green = Number.parseInt(hex.slice(3, 5), 16);
+                    const blue = Number.parseInt(hex.slice(5, 7), 16);
+
+                    color.set([red, green, blue, 255]);
+                });
             }
-
-            const hex = cogPalette[value];
-            const red = Number.parseInt(hex.slice(1, 3), 16);
-            const green = Number.parseInt(hex.slice(3, 5), 16);
-            const blue = Number.parseInt(hex.slice(5, 7), 16);
-
-            color.set([red, green, blue, 255]);
-        });
+        }
 
         const map = new maplibregl.Map({
             container: 'map',
@@ -118,16 +310,118 @@
                 sources: {},
                 layers: []
             },
-            center: [178.53854456725483, -17.412011076376925],
+            center: [178.53854456725483, -17.352011076376925],
             zoom: 8
         });
 
+        const cadenceSelect = document.getElementById('cadenceSelect');
+        const periodSelect = document.getElementById('periodSelect');
+        const periodSlider = document.getElementById('periodSlider');
+        const periodValue = document.getElementById('periodValue');
+        const layerId = 'cogLayer';
+        const sourceId = 'cogSource';
+        const cadenceOrder = ['annual', 'quarterly', 'monthly'];
+        let currentCadence = 'annual';
+        let currentIndex = 9;
+        let mapReady = false;
+
+        for (const cadence of cadenceOrder) {
+            const option = document.createElement('option');
+            option.value = cadence;
+            option.textContent = cadence[0].toUpperCase() + cadence.slice(1);
+            cadenceSelect.appendChild(option);
+        }
+
+        const getCurrentItems = () => catalogs[currentCadence];
+        const getCurrentItem = () => getCurrentItems()[currentIndex];
+
+        const syncPeriodControls = () => {
+            const items = getCurrentItems();
+
+            periodSelect.innerHTML = '';
+            items.forEach((item, index) => {
+                const option = document.createElement('option');
+                option.value = String(index);
+                option.textContent = item.label;
+                periodSelect.appendChild(option);
+            });
+
+            periodSlider.min = '0';
+            periodSlider.max = String(items.length - 1);
+            periodSlider.step = '1';
+            periodSelect.value = String(currentIndex);
+            periodSlider.value = String(currentIndex);
+            periodValue.textContent = items[currentIndex].label;
+        };
+
+        const loadCurrentItem = () => {
+            if (!mapReady) {
+                return;
+            }
+
+            const item = getCurrentItem();
+
+            if (map.getLayer(layerId)) {
+                map.removeLayer(layerId);
+            }
+
+            if (map.getSource(sourceId)) {
+                map.removeSource(sourceId);
+            }
+
+            map.addSource(sourceId, {
+                type: 'raster',
+                url: `cog://${item.url}`,
+                tileSize: 256
+            });
+
+            map.addLayer({
+                id: layerId,
+                source: sourceId,
+                type: 'raster'
+            });
+        };
+
+        const applySelection = () => {
+            syncPeriodControls();
+            loadCurrentItem();
+        };
+
+        const setCadence = (cadence) => {
+            currentCadence = cadence;
+            currentIndex = 0;
+            applySelection();
+        };
+
+        const setPeriod = (index) => {
+            currentIndex = index;
+            applySelection();
+        };
+
+        cadenceSelect.value = 'annual';
+        syncPeriodControls();
+        periodValue.textContent = getCurrentItem().label;
+
+        cadenceSelect.addEventListener('change', () => {
+            setCadence(cadenceSelect.value);
+        });
+
+        periodSelect.addEventListener('change', () => {
+            setPeriod(Number(periodSelect.value));
+        });
+
+        periodSlider.addEventListener('input', () => {
+            setPeriod(Number(periodSlider.value));
+        });
+
         map.on('load', () => {
+            mapReady = true;
+
             map.addSource('basemapSource', {
                 type: 'raster',
                 tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
                 tileSize: 256,
-                attribution: 'Tiles &copy; Esri, Maxar, Earthstar Geographics, and the GIS User Community'
+                attribution: 'Agentic Pacific | <a href="https://agentic.pacific.com.fj">agenticpacific.com.fj</a>'
             });
 
             map.addLayer({
@@ -136,17 +430,7 @@
                 type: 'raster'
             });
 
-            map.addSource('cogSource', {
-                type: 'raster',
-                url: `cog://${cogUrl}`,
-                tileSize: 256
-            });
-
-            map.addLayer({
-                id: 'cogLayer',
-                source: 'cogSource',
-                type: 'raster'
-            });
+            loadCurrentItem();
         });
     </script>
 </body>
