@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Add a COG raster source</title>
+    <meta property="og:description" content="Add an external Cloud Optimized Geotiff (COG) as source." />
+    <meta property="og:category" content="Raster & Imagery" />
+    <meta property="og:created" content="2025-06-25" />
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.3.0/dist/maplibre-gl.css" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body,
+        #map {
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/@geomatico/maplibre-cog-protocol@0.5.0/dist/index.js"></script>
+    <script type="module">
+        import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.3.0/dist/maplibre-gl.mjs';
+
+        maplibregl.addProtocol('cog', MaplibreCOGProtocol.cogProtocol);
+
+        const map = new maplibregl.Map({
+            container: 'map',
+            style: {
+                version: 8,
+                sources: {},
+                layers: []
+            },
+            center: [178.13854456725483, -17.712011076376925],
+            zoom: 8
+        });
+
+        map.on('load', () => {
+            map.addSource('basemapSource', {
+                type: 'raster',
+                tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
+                tileSize: 256,
+                attribution: 'Tiles &copy; Esri, Maxar, Earthstar Geographics, and the GIS User Community'
+            });
+
+            map.addLayer({
+                id: 'basemapLayer',
+                source: 'basemapSource',
+                type: 'raster'
+            });
+
+            map.addSource('cogSource', {
+                type: 'raster',
+                url: 'cog://https://agenticpacific.com.fj/platform-projects/data/fj_lulc/annual/fj_lulc_annual_2018_3857.tif',
+                tileSize: 256
+            });
+
+            map.addLayer({
+                id: 'cogLayer',
+                source: 'cogSource',
+                type: 'raster'
+            });
+        });
+    </script>
+</body>
+
+</html>
