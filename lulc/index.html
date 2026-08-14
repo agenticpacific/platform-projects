@@ -41,12 +41,23 @@
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
         }
 
-        .banner {
+        .ui-stack {
             position: absolute;
-            top: 10px;
+            top: max(10px, env(safe-area-inset-top));
             left: 16px;
             right: 16px;
             z-index: 3;
+            display: grid;
+            gap: 12px;
+            pointer-events: none;
+        }
+
+        .ui-stack>* {
+            pointer-events: auto;
+        }
+
+        .banner {
+            position: relative;
             background: linear-gradient(135deg, rgba(15, 23, 42, 0.94), rgba(17, 24, 39, 0.82));
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 20px;
@@ -86,14 +97,13 @@
         }
 
         .controls-stack {
-            position: absolute;
-            top: 190px;
-            left: 16px;
-            z-index: 3;
+            position: relative;
             display: grid;
             gap: 12px;
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 20px;
+            width: fit-content;
+            max-width: 100%;
         }
 
         .year-picker {
@@ -170,16 +180,18 @@
         }
 
         @media (max-width: 700px) {
-            .banner {
+            .ui-stack {
+                top: max(8px, env(safe-area-inset-top));
                 left: 12px;
                 right: 12px;
+            }
+
+            .banner {
                 padding: 14px 16px;
             }
 
             .controls-stack {
-                top: 154px;
-                left: 12px;
-                right: 12px;
+                width: 100%;
             }
 
             .year-slider {
@@ -191,32 +203,35 @@
 
 <body>
     <div id="map"></div>
-    <div class="banner">
-        <div class="banner-content">
-            <img class="banner-logo" src="logo.png" alt="Agentic Pacific Logo">
-            <div class="banner-text">
-                <h1>Evolving <u>Land Use and Land Cover</u> Product for Fiji</h1>
-                <p style="text-align: justify;">Monthly, Quarterly and Annual Cadence from 2016 onwards.
-                    Generated using open Foundation Models for Earth Observations, Satellite Embeddings and other GeoAI
-                    methodologies. 
-                    This is a continuously evolving product, with the 2026 layers updated at every Sentinel 2
-                    acquisition with less than 30% cloud cover threshold.
-                    Gaps are due to of insufficient Sentinel 2 tiles, or cloud cover exceeding threshold, during that particular time-frame. 
-                    Contact <a href="mailto:info@agenticpacific.com.fj">info@agenticpacific.com.fj</a> for derived-data
-                    and analytical products.
-                </p>
+    <div class="ui-stack">
+        <div class="banner">
+            <div class="banner-content">
+                <img class="banner-logo" src="logo.png" alt="Agentic Pacific Logo">
+                <div class="banner-text">
+                    <h1>Evolving <u>Land Use and Land Cover</u> Product for Fiji</h1>
+                    <p style="text-align: justify;">Monthly, Quarterly and Annual Cadence from 2016 onwards.
+                        Generated using open Foundation Models for Earth Observations, Satellite Embeddings and other GeoAI
+                        methodologies.
+                        This is a continuously evolving product, with the 2026 layers updated at every Sentinel 2
+                        acquisition with less than 30% cloud cover threshold.
+                        Gaps are due to of insufficient Sentinel 2 tiles, or cloud cover exceeding threshold, during that particular time-frame.
+                        Contact <a href="mailto:info@agenticpacific.com.fj">info@agenticpacific.com.fj</a> for derived-data
+                        and analytical products.
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="controls-stack">
-        <div class="year-picker">
-            <label for="cadenceSelect">Cadence</label>
-            <select id="cadenceSelect" aria-label="Select land cover cadence"></select>
-            <label for="periodSelect">Period</label>
-            <select id="periodSelect" aria-label="Select land cover period"></select>
-            <input id="periodSlider" class="year-slider" type="range" min="0" max="0" step="1" value="0"
-                aria-label="Scrub land cover period">
-            <span id="periodValue" class="year-value"></span>
+
+        <div class="controls-stack">
+            <div class="year-picker">
+                <label for="cadenceSelect">Cadence</label>
+                <select id="cadenceSelect" aria-label="Select land cover cadence"></select>
+                <label for="periodSelect">Period</label>
+                <select id="periodSelect" aria-label="Select land cover period"></select>
+                <input id="periodSlider" class="year-slider" type="range" min="0" max="0" step="1" value="0"
+                    aria-label="Scrub land cover period">
+                <span id="periodValue" class="year-value"></span>
+            </div>
         </div>
     </div>
     <div class="legend" aria-label="Land cover legend">
@@ -421,7 +436,7 @@
                 type: 'raster',
                 tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
                 tileSize: 256,
-                attribution: 'Agentic Pacific | <a href="https://agentic.pacific.com.fj">agenticpacific.com.fj</a>'
+                attribution: 'Agentic Pacific | <a href="https://agenticpacific.com.fj">agenticpacific.com.fj</a>'
             });
 
             map.addLayer({
