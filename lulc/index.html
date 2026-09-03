@@ -26,14 +26,7 @@
             height: 100%;
         }
 
-        input,
-        select,
-        button {
-            font-family: 'Roboto', sans-serif;
-        }
-
         .banner,
-        .year-picker,
         .legend {
             background: rgba(17, 24, 39, 0.88);
             color: #f9fafb;
@@ -99,49 +92,12 @@
         .controls-stack {
             position: relative;
             display: grid;
-            gap: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 20px;
-            width: fit-content;
+            width: min(100%, 460px);
             max-width: 100%;
         }
 
-        .year-picker {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 10px 12px;
-            border-radius: 14px;
-            font-size: 12px;
-            line-height: 1.35;
-        }
-
-        .year-picker label {
-            font-weight: 600;
-        }
-
-        .year-picker select {
-            appearance: none;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.08);
-            color: inherit;
-            padding: 6px 10px;
-            font: inherit;
-            outline: none;
-            cursor: pointer;
-        }
-
-        .year-slider {
-            width: 260px;
-            accent-color: #f9fafb;
-        }
-
-        .year-value {
-            min-width: 64px;
-            text-align: right;
-            font-weight: 700;
+        #controlsRoot {
+            width: 100%;
         }
 
         .legend {
@@ -193,10 +149,6 @@
             .controls-stack {
                 width: 100%;
             }
-
-            .year-slider {
-                width: min(100%, 320px);
-            }
         }
     </style>
 </head>
@@ -223,15 +175,7 @@
         </div>
 
         <div class="controls-stack">
-            <div class="year-picker">
-                <label for="cadenceSelect">Cadence</label>
-                <select id="cadenceSelect" aria-label="Select land cover cadence"></select>
-                <label for="periodSelect">Period</label>
-                <select id="periodSelect" aria-label="Select land cover period"></select>
-                <input id="periodSlider" class="year-slider" type="range" min="0" max="0" step="1" value="0"
-                    aria-label="Scrub land cover period">
-                <span id="periodValue" class="year-value"></span>
-            </div>
+            <div id="controlsRoot"></div>
         </div>
     </div>
     <div class="legend" aria-label="Land cover legend">
@@ -257,7 +201,24 @@
     </div>
     <script src="https://unpkg.com/@geomatico/maplibre-cog-protocol@0.5.0/dist/index.js"></script>
     <script type="module">
+        import * as React from 'https://esm.sh/react@18.3.1';
+        import { createRoot } from 'https://esm.sh/react-dom@18.3.1/client?deps=react@18.3.1';
+        import htm from 'https://esm.sh/htm@3.1.1';
+        import { ThemeProvider, createTheme } from 'https://esm.sh/@mui/material@7.3.1/styles?deps=react@18.3.1,react-dom@18.3.1';
+        import {
+            Box,
+            CssBaseline,
+            FormControl,
+            MenuItem,
+            Paper,
+            Select,
+            Slider,
+            Stack,
+            Typography
+        } from 'https://esm.sh/@mui/material@7.3.1?deps=react@18.3.1,react-dom@18.3.1';
         import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.3.0/dist/maplibre-gl.mjs';
+
+        const html = htm.bind(React.createElement);
 
         maplibregl.addProtocol('cog', MaplibreCOGProtocol.cogProtocol);
 
@@ -274,47 +235,59 @@
             '#B39FE1'
         ];
 
+        const createSplitCogEntry = (folder, stem, label) => ({
+            label,
+            urls: [
+                `${cogBaseUrl}/${folder}/${stem}_3857_east.tif`,
+                `${cogBaseUrl}/${folder}/${stem}_3857_west.tif`
+            ]
+        });
+
         const catalogs = {
             annual: Array.from({ length: 11 }, (_, index) => {
                 const year = 2016 + index;
-                return {
-                    label: String(year),
-                    url: `${cogBaseUrl}/annual/fj_lulc_annual_${year}_3857.tif`
-                };
+                return createSplitCogEntry('annual', `fj_lulc_annual_${year}_01`, String(year));
             }),
             quarterly: [
-                { label: '2026-01', url: `${cogBaseUrl}/quarterly/fj_lulc_quarterly_2026_01_3857.tif` },
-                { label: '2026-04', url: `${cogBaseUrl}/quarterly/fj_lulc_quarterly_2026_04_3857.tif` },
-                { label: '2026-07', url: `${cogBaseUrl}/quarterly/fj_lulc_quarterly_2026_07_3857.tif` }
+                createSplitCogEntry('quarterly', 'fj_lulc_quarterly_2025_01', '2025-01'),
+                createSplitCogEntry('quarterly', 'fj_lulc_quarterly_2025_04', '2025-04'),
+                createSplitCogEntry('quarterly', 'fj_lulc_quarterly_2025_07', '2025-07'),
+                createSplitCogEntry('quarterly', 'fj_lulc_quarterly_2025_10', '2025-10'),
+                createSplitCogEntry('quarterly', 'fj_lulc_quarterly_2026_01', '2026-01'),
+                createSplitCogEntry('quarterly', 'fj_lulc_quarterly_2026_04', '2026-04'),
+                createSplitCogEntry('quarterly', 'fj_lulc_quarterly_2026_07', '2026-07')
             ],
             monthly: [
-                { label: '2026-01', url: `${cogBaseUrl}/monthly/fj_lulc_monthly_2026_01_3857.tif` },
-                { label: '2026-02', url: `${cogBaseUrl}/monthly/fj_lulc_monthly_2026_02_3857.tif` },
-                { label: '2026-03', url: `${cogBaseUrl}/monthly/fj_lulc_monthly_2026_03_3857.tif` },
-                { label: '2026-04', url: `${cogBaseUrl}/monthly/fj_lulc_monthly_2026_04_3857.tif` },
-                { label: '2026-05', url: `${cogBaseUrl}/monthly/fj_lulc_monthly_2026_05_3857.tif` },
-                { label: '2026-06', url: `${cogBaseUrl}/monthly/fj_lulc_monthly_2026_06_3857.tif` },
-                { label: '2026-07', url: `${cogBaseUrl}/monthly/fj_lulc_monthly_2026_07_3857.tif` }
+                createSplitCogEntry('monthly', 'fj_lulc_monthly_2026_01', '2026-01'),
+                createSplitCogEntry('monthly', 'fj_lulc_monthly_2026_02', '2026-02'),
+                createSplitCogEntry('monthly', 'fj_lulc_monthly_2026_03', '2026-03'),
+                createSplitCogEntry('monthly', 'fj_lulc_monthly_2026_04', '2026-04'),
+                createSplitCogEntry('monthly', 'fj_lulc_monthly_2026_05', '2026-05'),
+                createSplitCogEntry('monthly', 'fj_lulc_monthly_2026_06', '2026-06'),
+                createSplitCogEntry('monthly', 'fj_lulc_monthly_2026_07', '2026-07'),
+                createSplitCogEntry('monthly', 'fj_lulc_monthly_2026_08', '2026-08')
             ]
         };
 
         for (const items of Object.values(catalogs)) {
             for (const item of items) {
-                MaplibreCOGProtocol.setColorFunction(item.url, (pixel, color, metadata) => {
-                    const value = pixel[0];
+                for (const url of item.urls) {
+                    MaplibreCOGProtocol.setColorFunction(url, (pixel, color, metadata) => {
+                        const value = pixel[0];
 
-                    if (value === metadata.noData || value < 0 || value > 8) {
-                        color.set([0, 0, 0, 0]);
-                        return;
-                    }
+                        if (value === metadata.noData || value < 0 || value > 8) {
+                            color.set([0, 0, 0, 0]);
+                            return;
+                        }
 
-                    const hex = cogPalette[value];
-                    const red = Number.parseInt(hex.slice(1, 3), 16);
-                    const green = Number.parseInt(hex.slice(3, 5), 16);
-                    const blue = Number.parseInt(hex.slice(5, 7), 16);
+                        const hex = cogPalette[value];
+                        const red = Number.parseInt(hex.slice(1, 3), 16);
+                        const green = Number.parseInt(hex.slice(3, 5), 16);
+                        const blue = Number.parseInt(hex.slice(5, 7), 16);
 
-                    color.set([red, green, blue, 255]);
-                });
+                        color.set([red, green, blue, 255]);
+                    });
+                }
             }
         }
 
@@ -329,44 +302,260 @@
             zoom: 8
         });
 
-        const cadenceSelect = document.getElementById('cadenceSelect');
-        const periodSelect = document.getElementById('periodSelect');
-        const periodSlider = document.getElementById('periodSlider');
-        const periodValue = document.getElementById('periodValue');
-        const layerId = 'cogLayer';
-        const sourceId = 'cogSource';
+        const controlsRoot = createRoot(document.getElementById('controlsRoot'));
+        const cogVariants = ['east', 'west'];
         const cadenceOrder = ['annual', 'quarterly', 'monthly'];
         let currentCadence = 'annual';
         let currentIndex = 9;
         let mapReady = false;
 
-        for (const cadence of cadenceOrder) {
-            const option = document.createElement('option');
-            option.value = cadence;
-            option.textContent = cadence[0].toUpperCase() + cadence.slice(1);
-            cadenceSelect.appendChild(option);
-        }
+        const getLayerId = (variant) => `cogLayer-${variant}`;
+        const getSourceId = (variant) => `cogSource-${variant}`;
 
         const getCurrentItems = () => catalogs[currentCadence];
         const getCurrentItem = () => getCurrentItems()[currentIndex];
+        const controlsTheme = createTheme({
+            palette: {
+                mode: 'dark',
+                primary: {
+                    main: '#5cd5b4'
+                },
+                secondary: {
+                    main: '#f7b84b'
+                },
+                background: {
+                    default: 'transparent',
+                    paper: 'rgba(15, 23, 42, 0.92)'
+                },
+                text: {
+                    primary: '#f9fafb',
+                    secondary: 'rgba(248, 250, 252, 0.72)'
+                }
+            },
+            shape: {
+                borderRadius: 16
+            },
+            typography: {
+                fontFamily: 'Roboto, sans-serif',
+                fontSize: 11,
+                button: {
+                    textTransform: 'none',
+                    fontWeight: 600
+                }
+            },
+            components: {
+                MuiCssBaseline: {
+                    styleOverrides: {
+                        body: {
+                            backgroundColor: 'transparent'
+                        }
+                    }
+                },
+                MuiPaper: {
+                    styleOverrides: {
+                        root: {
+                            backgroundImage: 'none',
+                            backdropFilter: 'blur(10px)'
+                        }
+                    }
+                },
+                MuiOutlinedInput: {
+                    styleOverrides: {
+                        root: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.06)'
+                        },
+                        input: {
+                            fontSize: '0.78rem',
+                            paddingTop: '11px',
+                            paddingBottom: '11px'
+                        }
+                    }
+                },
+                MuiInputLabel: {
+                    styleOverrides: {
+                        root: {
+                            fontSize: '0.74rem'
+                        }
+                    }
+                },
+                MuiMenuItem: {
+                    styleOverrides: {
+                        root: {
+                            fontSize: '0.78rem',
+                            minHeight: '34px'
+                        }
+                    }
+                },
+                MuiSelect: {
+                    styleOverrides: {
+                        select: {
+                            fontSize: '0.78rem',
+                            minHeight: 'auto'
+                        }
+                    }
+                },
+                MuiSlider: {
+                    styleOverrides: {
+                        root: {
+                            padding: '8px 0'
+                        },
+                        thumb: {
+                            width: 18,
+                            height: 18
+                        },
+                        rail: {
+                            height: 6
+                        },
+                        track: {
+                            height: 6
+                        },
+                        valueLabel: {
+                            fontSize: '0.75rem'
+                        }
+                    }
+                }
+            }
+        });
 
-        const syncPeriodControls = () => {
+        const renderControls = () => {
             const items = getCurrentItems();
 
-            periodSelect.innerHTML = '';
-            items.forEach((item, index) => {
-                const option = document.createElement('option');
-                option.value = String(index);
-                option.textContent = item.label;
-                periodSelect.appendChild(option);
-            });
-
-            periodSlider.min = '0';
-            periodSlider.max = String(items.length - 1);
-            periodSlider.step = '1';
-            periodSelect.value = String(currentIndex);
-            periodSlider.value = String(currentIndex);
-            periodValue.textContent = items[currentIndex].label;
+            controlsRoot.render(html`
+                <${ThemeProvider} theme=${controlsTheme}>
+                    <${CssBaseline} />
+                    <${Paper}
+                        elevation=${0}
+                        sx=${{
+                            borderRadius: '20px',
+                            border: '1px solid rgba(255, 255, 255, 0.12)',
+                            background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.94), rgba(17, 24, 39, 0.82))',
+                            boxShadow: '0 12px 30px rgba(0, 0, 0, 0.28)',
+                            px: { xs: 1.25, sm: 1.5 },
+                            py: { xs: 1.25, sm: 1.5 }
+                        }}
+                    >
+                        <${Stack} spacing=${1.25}>
+                            <${Box}
+                                sx=${{
+                                    display: 'grid',
+                                    gap: 1,
+                                    gridTemplateColumns: {
+                                        xs: '1fr',
+                                        sm: 'minmax(136px, 1fr) minmax(160px, 1fr)'
+                                    },
+                                    alignItems: 'center'
+                                }}
+                            >
+                                <${Box}>
+                                    <${Typography}
+                                        variant="caption"
+                                        sx=${{
+                                            display: 'block',
+                                            mb: 0.5,
+                                            fontWeight: 700,
+                                            color: 'rgba(248, 250, 252, 0.68)',
+                                            letterSpacing: '0.08em',
+                                            textTransform: 'uppercase',
+                                            fontSize: '0.64rem'
+                                        }}
+                                    >
+                                        Cadence
+                                    <//>
+                                    <${FormControl} size="small" fullWidth>
+                                    <${Select}
+                                        value=${currentCadence}
+                                        onChange=${(event) => setCadence(event.target.value)}
+                                    >
+                                        ${cadenceOrder.map((cadence) => html`
+                                            <${MenuItem} key=${cadence} value=${cadence}>
+                                                ${cadence[0].toUpperCase() + cadence.slice(1)}
+                                            <//>
+                                        `)}
+                                    <//>
+                                    <//>
+                                <//>
+                                <${Box}>
+                                    <${Typography}
+                                        variant="caption"
+                                        sx=${{
+                                            display: 'block',
+                                            mb: 0.5,
+                                            fontWeight: 700,
+                                            color: 'rgba(248, 250, 252, 0.68)',
+                                            letterSpacing: '0.08em',
+                                            textTransform: 'uppercase',
+                                            fontSize: '0.64rem'
+                                        }}
+                                    >
+                                        Period
+                                    <//>
+                                    <${FormControl} size="small" fullWidth>
+                                    <${Select}
+                                        value=${currentIndex}
+                                        onChange=${(event) => setPeriod(Number(event.target.value))}
+                                    >
+                                        ${items.map((item, index) => html`
+                                            <${MenuItem} key=${item.label} value=${index}>
+                                                ${item.label}
+                                            <//>
+                                        `)}
+                                    <//>
+                                    <//>
+                                <//>
+                                <${Box} sx=${{ gridColumn: '1 / -1', px: 0.25, pt: 0.25 }}>
+                                    <${Stack}
+                                        direction="row"
+                                        alignItems="baseline"
+                                        justifyContent="space-between"
+                                        sx=${{ mb: 0.25 }}
+                                    >
+                                        <${Typography}
+                                            variant="caption"
+                                            sx=${{
+                                                fontWeight: 700,
+                                                color: 'rgba(248, 250, 252, 0.68)',
+                                                letterSpacing: '0.08em',
+                                                textTransform: 'uppercase',
+                                                fontSize: '0.64rem'
+                                            }}
+                                        >
+                                            Scrub Period
+                                        <//>
+                                        <${Typography} variant="body2" sx=${{ fontWeight: 700, fontSize: '0.74rem' }}>
+                                            ${getCurrentItem().label}
+                                        <//>
+                                    <//>
+                                    <${Slider}
+                                        aria-label="Scrub land cover period"
+                                        min=${0}
+                                        max=${Math.max(items.length - 1, 0)}
+                                        step=${1}
+                                        value=${currentIndex}
+                                        valueLabelDisplay="auto"
+                                        valueLabelFormat=${(value) => items[value]?.label ?? ''}
+                                        onChange=${(_event, value) => {
+                                            const nextIndex = Array.isArray(value) ? value[0] : value;
+                                            setPeriod(nextIndex);
+                                        }}
+                                    />
+                                    <${Box}
+                                        sx=${{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            gap: 1,
+                                            color: 'rgba(248, 250, 252, 0.6)',
+                                            fontSize: '0.64rem'
+                                        }}
+                                    >
+                                        <span>${items[0].label}</span>
+                                        <span>${items[items.length - 1].label}</span>
+                                    <//>
+                                <//>
+                            <//>
+                        <//>
+                    <//>
+                <//>
+            `);
         };
 
         const loadCurrentItem = () => {
@@ -376,29 +565,40 @@
 
             const item = getCurrentItem();
 
-            if (map.getLayer(layerId)) {
-                map.removeLayer(layerId);
+            for (const variant of cogVariants) {
+                const layerId = getLayerId(variant);
+                const sourceId = getSourceId(variant);
+
+                if (map.getLayer(layerId)) {
+                    map.removeLayer(layerId);
+                }
+
+                if (map.getSource(sourceId)) {
+                    map.removeSource(sourceId);
+                }
             }
 
-            if (map.getSource(sourceId)) {
-                map.removeSource(sourceId);
-            }
+            item.urls.forEach((url, index) => {
+                const variant = cogVariants[index] ?? String(index);
+                const sourceId = getSourceId(variant);
+                const layerId = getLayerId(variant);
 
-            map.addSource(sourceId, {
-                type: 'raster',
-                url: `cog://${item.url}`,
-                tileSize: 256
-            });
+                map.addSource(sourceId, {
+                    type: 'raster',
+                    url: `cog://${url}`,
+                    tileSize: 256
+                });
 
-            map.addLayer({
-                id: layerId,
-                source: sourceId,
-                type: 'raster'
+                map.addLayer({
+                    id: layerId,
+                    source: sourceId,
+                    type: 'raster'
+                });
             });
         };
 
         const applySelection = () => {
-            syncPeriodControls();
+            renderControls();
             loadCurrentItem();
         };
 
@@ -409,25 +609,12 @@
         };
 
         const setPeriod = (index) => {
-            currentIndex = index;
+            const maxIndex = getCurrentItems().length - 1;
+            currentIndex = Math.min(Math.max(index, 0), maxIndex);
             applySelection();
         };
 
-        cadenceSelect.value = 'annual';
-        syncPeriodControls();
-        periodValue.textContent = getCurrentItem().label;
-
-        cadenceSelect.addEventListener('change', () => {
-            setCadence(cadenceSelect.value);
-        });
-
-        periodSelect.addEventListener('change', () => {
-            setPeriod(Number(periodSelect.value));
-        });
-
-        periodSlider.addEventListener('input', () => {
-            setPeriod(Number(periodSlider.value));
-        });
+        renderControls();
 
         map.on('load', () => {
             mapReady = true;
